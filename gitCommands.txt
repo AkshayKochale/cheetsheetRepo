@@ -1,0 +1,68 @@
+
+1.  git init : Initialize a new Git repository in the current directory.
+   - Syntax: `git init`
+   - No commonly used options.
+
+2.  git clone : Create a local copy of a remote repository.
+   - Syntax: `git clone <repository_url>`
+   - Options:
+     - `--branch`: Clone a specific branch.
+     - `--depth`: Limit the depth of the clone.
+     - `--bare`: Clone a repository without its commit history.
+
+3.  git add : Add files or changes to the staging area.
+   - Syntax: `git add <file_path>`
+   - Options:
+     - `-A, --all`: Add all changes.
+     - `-u, --update`: Add modified and deleted files.
+
+4.  git commit : Record changes to the repository.
+   - Syntax: `git commit -m <commit_message>`
+   - Options:
+     - `-a, --all`: Commit all changes, including deleted files.
+     - `-m, --message`: Specify the commit message.
+
+5.  git push : Push local changes to a remote repository.
+   - Syntax: `git push <remote_name> <branch_name>`
+   - Options:
+     - `--force`: Force push and overwrite remote changes.
+     - `--tags`: Push tags to the remote repository.
+
+6.  git pull : Fetch and merge changes from a remote repository.
+   - Syntax: `git pull <remote_name> <branch_name>`
+   - Options:
+     - `--rebase`: Rebase local changes on top of the remote branch.
+
+7.  git status : Show the current state of the repository.
+   - Syntax: `git status`
+   - No commonly used options.
+
+8.  git branch : List, create, or delete branches.
+   - Syntax: `git branch [<branch_name>]`
+   - Options:
+     - `-a, --all`: List both local and remote branches.
+     - `-d, --delete`: Delete a branch.
+
+9.  git checkout : Switch branches or restore files.
+   - Syntax: `git checkout <branch_name>`
+   - Options:
+     - `-b, --branch`: Create and switch to a new branch.
+     - `-- <file_path>`: Restore a specific file.
+
+10.  git merge : Merge changes from one branch to another.
+    - Syntax: `git merge <branch_name>`
+    - Options:
+      - `--no-ff`: Perform a non-fast-forward merge.
+
+11.  git log : Show commit history.
+    - Syntax: `git log`
+    - Options:
+      - `--oneline`: Show condensed commit information.
+      - `--graph`: Show ASCII graph of branch history.
+
+12.  git remote : Manage remote repositories.
+    - Syntax: `git remote [options] <command>`
+    - Options:
+      - `-v, --verbose`: Show more detailed information.
+
+These are just a few of the basic Git commands. Git offers a wide range of features and commands, and it's recommended to explore the official Git documentation for a more comprehensive understanding of the available options and commands.

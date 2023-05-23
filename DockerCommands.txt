@@ -1,0 +1,86 @@
+
+1. docker run: Create and start a new container from an image.
+   - Syntax: `docker run [options] <image_name>`
+   - Options:
+     - `-d, --detach`: Run the container in the background (detached mode).
+     - `-p, --publish`: Map container ports to the host in the format `<host_port>:<container_port>`.
+     - `-v, --volume`: Mount a volume from the host into the container in the format `<host_path>:<container_path>`.
+     - `--name`: Assign a name to the container.
+     - `--restart`: Specify the restart policy for the container.
+
+2. docker build: Build a Docker image from a Dockerfile.
+   - Syntax: `docker build [options] <path_to_dockerfile>`
+   - Options:
+     - `-t, --tag`: Assign a tag to the image.
+     - `-f, --file`: Specify the path to the Dockerfile.
+     - `--build-arg`: Set build-time variables.
+
+3. docker pull: Fetch a Docker image from a registry.
+   - Syntax: `docker pull <image_name>`
+   - No additional options are commonly used with this command.
+
+4. docker push: Push a Docker image to a registry.
+   - Syntax: `docker push <image_name>`
+   - No additional options are commonly used with this command.
+
+5. docker stop: Stop a running container.
+   - Syntax: `docker stop <container_id>`
+   - No additional options are commonly used with this command.
+
+6. docker start: Start a stopped container.
+   - Syntax: `docker start <container_id>`
+   - No additional options are commonly used with this command.
+
+7. docker restart: Stop and start a container.
+   - Syntax: `docker restart <container_id>`
+   - No additional options are commonly used with this command.
+
+8. docker rm: Remove a container.
+   - Syntax: `docker rm <container_id>`
+   - Options:
+     - `-f, --force`: Force removal of a running container.
+
+9. docker rmi: Remove an image.
+   - Syntax: `docker rmi <image_name>`
+   - Options:
+     - `-f, --force`: Force removal of an image.
+
+10. docker ps: List running containers.
+    - Syntax: `docker ps [options]`
+    - Options:
+      - `-a, --all`: Show all containers, including stopped ones.
+      - `-q, --quiet`: Only display numeric container IDs.
+
+11. docker images: List available images.
+    - Syntax: `docker images [options]`
+    - Options:
+      - `-a, --all`: Show all images, including intermediate image layers.
+      - `-q, --quiet`: Only display numeric image IDs.
+
+12. docker exec: Run a command in a running container.
+    - Syntax: `docker exec [options] <container_id> <command>`
+    - Options:
+      - `-it`: Attach an interactive tty to the container.
+
+13. docker logs: Retrieve the logs of a container.
+    - Syntax: `docker logs [options] <container_id>`
+    - Options:
+      - `-f, --follow`: Follow the log output in real-time.
+      - `-t, --timestamps`: Show timestamps for log entries.
+
+14. docker network: Manage Docker networks.
+    - Syntax: `docker network [options] <command>`
+    - Options:
+      - No commonly used options at the top level. Options vary depending on the specific network command.
+
+15. 
+
+docker volume: Manage Docker volumes.
+    - Syntax: `docker volume [options] <command>`
+    - Options:
+      - No commonly used options at the top level. Options vary depending on the specific volume command.
+
+16. docker-compose: Manage multi-container applications with Docker Compose.
+    - Syntax: `docker-compose [options] <command>`
+    - Options:
+      - No commonly used options at the top level. Options vary depending on the specific Docker Compose command.
