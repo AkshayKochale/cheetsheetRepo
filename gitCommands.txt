@@ -22,6 +22,10 @@
      - `-a, --all`: Commit all changes, including deleted files.
      - `-m, --message`: Specify the commit message.
 
+
+* git remote add origin <URL>   :to add remote repo 
+* git remote -v  : to see available remote repo 
+
 5.  git push : Push local changes to a remote repository.
    - Syntax: `git push <remote_name> <branch_name>`
    - Options:
