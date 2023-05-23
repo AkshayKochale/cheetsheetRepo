@@ -69,4 +69,8 @@
     - Options:
       - `-v, --verbose`: Show more detailed information.
 
+13. git stash : put files in stash
+    git pop  : take all files from stash to staging
+    git stash clear : empty stash
+
 These are just a few of the basic Git commands. Git offers a wide range of features and commands, and it's recommended to explore the official Git documentation for a more comprehensive understanding of the available options and commands.
