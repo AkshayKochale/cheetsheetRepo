@@ -73,9 +73,7 @@
     - Options:
       - No commonly used options at the top level. Options vary depending on the specific network command.
 
-15. 
-
-docker volume: Manage Docker volumes.
+15. docker volume: Manage Docker volumes.
     - Syntax: `docker volume [options] <command>`
     - Options:
       - No commonly used options at the top level. Options vary depending on the specific volume command.

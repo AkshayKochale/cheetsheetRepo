@@ -1,0 +1,372 @@
+
+**Features of JUnit:**
+
+1. **Annotation-based Testing**: JUnit uses annotations to define and configure test methods and test classes. For example:
+   
+   import org.junit.Test;
+   
+   public class MyTestClass {
+   
+       @Test
+       public void testSomeMethod() {
+           // Test logic goes here
+       }
+   }
+   
+   In the example above, the @Test annotation marks the testSomeMethod() as a test method. JUnit will execute this method when running tests.
+
+2. **Assertions**: JUnit provides a rich set of assertion methods to verify expected results and conditions. Here's an example:
+   
+   import org.junit.Test;
+   import static org.junit.Assert.assertEquals;
+   
+   public class CalculatorTest {
+   
+       @Test
+       public void testAddition() {
+           Calculator calculator = new Calculator();
+           int result = calculator.add(2, 3);
+           assertEquals(5, result);
+       }
+   }
+   
+   In the example above, the assertEquals() method verifies that the add() method of the Calculator class returns the expected result.
+
+3. **Test Suites**: JUnit allows you to group related tests into test suites using the @RunWith and @Suite annotations. Here's an example:
+   
+   import org.junit.runner.RunWith;
+   import org.junit.runners.Suite;
+   
+   @RunWith(Suite.class)
+   @Suite.SuiteClasses({
+           CalculatorTest.class,
+           MathUtilsTest.class
+   })
+   public class TestSuite {
+       // This class will run all the test classes mentioned above
+   }
+   
+   In the example above, the TestSuite class includes the CalculatorTest and MathUtilsTest classes, and when executed, it runs all the test methods from both classes.
+
+4. **Parameterized Tests**: JUnit supports parameterized tests, allowing you to run the same test logic with different sets of input data. Here's an example:
+   
+   import org.junit.Test;
+   import org.junit.runner.RunWith;
+   import org.junit.runners.Parameterized;
+   
+   import java.util.Arrays;
+   import java.util.Collection;
+   
+   @RunWith(Parameterized.class)
+   public class ParameterizedTest {
+   
+       @Parameterized.Parameter
+       public int input;
+   
+       @Parameterized.Parameters
+       public static Collection<Object[]> data() {
+           return Arrays.asList(new Object[][]{
+                   {1}, {2}, {3}
+           });
+       }
+   
+       @Test
+       public void testMethod() {
+           // Test logic using the 'input' value
+       }
+   }
+   
+   In the example above, the ParameterizedTest class is annotated with @RunWith(Parameterized.class). It includes a static method data() annotated with @Parameterized.Parameters, which returns the input values for the test. The test method testMethod() is executed multiple times with each input value.
+
+5. **Exception Testing**: JUnit provides annotations and assertion methods specifically designed for testing expected exceptions. Here's an example:
+   
+   import org.junit.Test;
+   import static org.junit.Assert.assertThrows;
+   
+   public class ExceptionTest {
+   
+       @Test
+       public void testException() {
+           MyCalculator calculator = new MyCalculator();
+           assertThrows(ArithmeticException.class, () -> calculator.divide(10, 0));
+       }
+   }
+   
+   In the example above, the assertThrows() method verifies that the divide() method of the MyCalculator class throws an ArithmeticException when dividing by zero.
+
+**Using JUnit in your Java
+
+ Project:**
+
+To use JUnit in your Java project:
+
+1. **Add JUnit Dependency**: Include the JUnit dependency in your project's pom.xml file if you're using Maven, or add the JUnit JAR file to your project's classpath if you're not using a build tool.
+
+2. **Write Test Classes**: Create test classes for your Java classes. Each test class should contain methods annotated with @Test, representing individual test cases.
+
+3. **Write Test Methods**: Inside each test class, write test methods to verify the behavior of your code. Use JUnit assertions to check expected outcomes.
+
+4. **Run Tests**: Execute your tests using an IDE or build tool. Most IDEs provide built-in support for running JUnit tests. Alternatively, you can use Maven or Gradle commands to run your tests from the command line.
+
+5. **Analyze Test Results**: Review the test results to identify any failures or errors. JUnit reports the number of tests executed, passed, failed, and skipped, along with detailed error messages for failed tests.
+
+6. **Refactor and Re-run**: If any tests fail, analyze the failures, and modify your code as needed. Re-run the tests to ensure that the modifications do not introduce new failures.
+
+JUnit provides a robust and standardized approach to unit testing in Java. By writing comprehensive tests using JUnit, you can improve the quality, reliability, and maintainability of your Java code.
+
+
+
+    ----------------------------------------------------ANNOTATION USED IN JUNIT -----------------------------------------------------------------
+
+
+1. **@Test**: This annotation is used to mark a method as a test method. JUnit executes methods annotated with @Test when running tests. Example:
+   
+   import org.junit.Test;
+   
+   public class MyTestClass {
+   
+       @Test
+       public void testMethod() {
+           // Test logic goes here
+       }
+   }
+   
+
+2. **@Before**: This annotation is used to mark a method that should be executed before each test method in the class. It is commonly used to set up preconditions or initialize resources. Example:
+   
+   import org.junit.Before;
+   
+   public class MyTestClass {
+   
+       @Before
+       public void setUp() {
+           // Code to set up preconditions or initialize resources
+       }
+   
+       @Test
+       public void testMethod() {
+           // Test logic goes here
+       }
+   }
+   
+
+3. **@After**: This annotation is used to mark a method that should be executed after each test method in the class. It is commonly used to clean up resources or perform post-test actions. Example:
+   
+   import org.junit.After;
+   
+   public class MyTestClass {
+   
+       @After
+       public void tearDown() {
+           // Code to clean up resources or perform post-test actions
+       }
+   
+       @Test
+       public void testMethod() {
+           // Test logic goes here
+       }
+   }
+   
+
+4. **@BeforeClass**: This annotation is used to mark a method that should be executed once before any test methods in the class. It is typically used for expensive setup operations that are shared among multiple tests. Example:
+   
+   import org.junit.BeforeClass;
+   
+   public class MyTestClass {
+   
+       @BeforeClass
+       public static void setUpClass() {
+           // Code to perform setup operations once before any tests in the class
+       }
+   
+       @Test
+       public void testMethod() {
+           // Test logic goes here
+       }
+   }
+   
+
+5. **@AfterClass**: This annotation is used to mark a method that should be executed once after all test methods in the class have been executed. It is typically used for cleanup operations or releasing shared resources. Example:
+   
+   import org.junit.AfterClass;
+   
+   public class MyTestClass {
+   
+       @AfterClass
+       public static void tearDownClass() {
+           // Code to perform cleanup operations once after all tests in the class
+       }
+   
+       @Test
+       public void testMethod() {
+           // Test logic goes here
+       }
+   }
+   
+
+These annotations provide a way to define the setup, teardown, and test methods in JUnit, allowing you to control the execution order and perform necessary actions during testing.
+
+
+
+
+-----------------------------------------------------------COMMAN ASSERT STATEMENTS--------------------------------------------------------------------
+
+Certainly! Here are some common assertion statements in JUnit along with their syntax:
+
+1. **assertEquals()**: This assertion checks if two values are equal.
+   Syntax:
+   
+   assertEquals(expected, actual);
+   
+
+2. **assertTrue()**: This assertion checks if a condition is true.
+   Syntax:
+   
+   assertTrue(condition);
+   
+
+3. **assertFalse()**: This assertion checks if a condition is false.
+   Syntax:
+   
+   assertFalse(condition);
+   
+
+4. **assertNull()**: This assertion checks if a value is null.
+   Syntax:
+   
+   assertNull(value);
+   
+
+5. **assertNotNull()**: This assertion checks if a value is not null.
+   Syntax:
+   
+   assertNotNull(value);
+   
+
+6. **assertSame()**: This assertion checks if two objects refer to the same instance.
+   Syntax:
+   
+   assertSame(expected, actual);
+   
+
+7. **assertNotSame()**: This assertion checks if two objects do not refer to the same instance.
+   Syntax:
+   
+   assertNotSame(expected, actual);
+   
+
+8. **fail()**: This assertion marks a test as a failure.
+   Syntax:
+   
+   fail();
+   
+
+These assertion statements allow you to validate expected outcomes and conditions during testing. The expected and actual parameters represent the expected value and the actual value obtained during the test, respectively.
+
+
+---------------------------------------------------------MOCKITO -----------------------------------------------------------------------------
+
+Mocks, stubs, and spies are commonly used in testing to simulate certain behaviors or dependencies. Here's an explanation of each term along with an example:
+
+1. **Mocks**: A mock is an object that simulates the behavior of a real object or dependency. It allows you to define and verify the expected interactions between the tested code and the dependency.
+
+   Example:
+   Let's say you have a `UserService` class that depends on a `UserRepository` to retrieve user data. You can create a mock `UserRepository` object that mimics the behavior of the real repository. Then, you can define the expected behavior of the mock repository and use it in your tests.
+
+   
+   import org.junit.Test;
+   import static org.mockito.Mockito.*;
+
+   public class UserServiceTest {
+
+       @Test
+       public void testGetUser() {
+           // Create a mock UserRepository
+           UserRepository userRepository = mock(UserRepository.class);
+           
+           // Define the behavior of the mock
+           User expectedUser = new User("John");
+           when(userRepository.getUserById(1)).thenReturn(expectedUser);
+           
+           // Create an instance of UserService with the mock dependency
+           UserService userService = new UserService(userRepository);
+           
+           // Invoke the method under test
+           User result = userService.getUserById(1);
+           
+           // Verify the interactions and assertions
+           verify(userRepository).getUserById(1);
+           assertEquals(expectedUser, result);
+       }
+   }
+   
+   In the example above, `UserRepository` is mocked using the `mock()` method from the Mockito framework. The behavior of the mock is defined using `when().thenReturn()` to specify that when `getUserById(1)` is called, it should return the `expectedUser` object. Later, the interactions with the mock are verified using `verify()`.
+
+2. **Stubs**: A stub is an object that provides predefined responses to method calls. It is used to replace a real implementation and simplify the testing process by providing consistent and controlled behavior.
+
+   Example:
+   Let's consider a `Calculator` class with a dependency on an external `MathService`. By creating a stub for `MathService`, you can control the behavior and return values without invoking the actual service.
+
+   
+   import org.junit.Test;
+
+   public class CalculatorTest {
+
+       @Test
+       public void testAdd() {
+           // Create a stub MathService
+           MathService mathServiceStub = new MathServiceStub();
+           
+           // Create an instance of Calculator with the stub dependency
+           Calculator calculator = new Calculator(mathServiceStub);
+           
+           // Invoke the method under test
+           int result = calculator.add(2, 3);
+           
+           // Assert the result
+           assertEquals(5, result);
+       }
+   }
+   
+   // Stub implementation of MathService
+   public class MathServiceStub implements MathService {
+   
+       @Override
+       public int add(int a, int b) {
+           // Provide a predefined response
+           return a + b;
+       }
+   }
+   
+
+   In this example, the `MathServiceStub` is created to simulate the behavior of the real `MathService`. It implements the same interface and provides a predefined response for the `add()` method. The `Calculator` class is then tested using the stub implementation of the `MathService`.
+
+3. **Spies**: A spy is an object that wraps a real implementation and allows you to monitor and verify the interactions with that object while still executing the original behavior.
+
+   Example:
+   Let's say you have a `EmailService` class that sends emails using an external SMTP server. By creating a spy for the `EmailService`, you can observe the calls made to the SMTP server without actually sending emails.
+
+   
+   import org.junit.Test;
+   import static org.mockito.Mockito.*;
+
+   public class EmailServiceTest {
+
+       @Test
+       public void testSendEmail() {
+           // Create a spy for EmailService
+           EmailService emailService = spy(new EmailService());
+           
+           // Invoke the method under test
+           emailService.sendEmail("test@example.com", "Hello!");
+           
+           // Verify the interactions
+           verify(emailService).sendEmail("test@example.com", "Hello!");
+           verifyNoMoreInteractions(emailService);
+       }
+   }
+   ```
+
+   In this example, the `EmailService` is wrapped with a spy using `spy()` from Mockito. The spy allows you to verify that the `sendEmail()` method is called with the expected arguments. Additionally, `verifyNoMoreInteractions()` ensures that there are no other interactions with the spy after the tested method is invoked.
+
+Mocks, stubs, and spies provide different capabilities for testing, allowing you to control dependencies, simulate behaviors, and verify interactions. They are valuable tools for isolating and testing specific parts of your code.
