@@ -270,6 +270,17 @@ Mocks, stubs, and spies are commonly used in testing to simulate certain behavio
 
 1. **Mocks**: A mock is an object that simulates the behavior of a real object or dependency. It allows you to define and verify the expected interactions between the tested code and the dependency.
 
+Syntax for creating a mock object: ClassName mockObject = Mockito.mock(ClassName.class);
+
+Syntax for defining behavior:
+Mockito.when(mockObject.methodCall()).thenReturn(expectedResult);
+Mockito.doThrow(exception).when(mockObject).methodCall();
+
+Syntax for verifying interactions:
+Mockito.verify(mockObject, Mockito.times(n)).methodCall();
+Mockito.verifyNoMoreInteractions(mockObject);
+
+
    Example:
    Let's say you have a `UserService` class that depends on a `UserRepository` to retrieve user data. You can create a mock `UserRepository` object that mimics the behavior of the real repository. Then, you can define the expected behavior of the mock repository and use it in your tests.
 
@@ -369,4 +380,38 @@ Mocks, stubs, and spies are commonly used in testing to simulate certain behavio
 
    In this example, the `EmailService` is wrapped with a spy using `spy()` from Mockito. The spy allows you to verify that the `sendEmail()` method is called with the expected arguments. Additionally, `verifyNoMoreInteractions()` ensures that there are no other interactions with the spy after the tested method is invoked.
 
+
+Syntax for creating a spy object: ClassName spyObject = Mockito.spy(new ClassName());
+
+Syntax for defining behavior:
+Mockito.doReturn(expectedResult).when(spyObject).methodCall();
+Mockito.doThrow(exception).when(spyObject).methodCall();
+
+Syntax for verifying interactions:
+Mockito.verify(spyObject, Mockito.times(n)).methodCall();
+Mockito.verifyNoMoreInteractions(spyObject);
+Common static methods used with Mockito:
+
+Mockito.mock(Class<T> classToMock): Creates a mock object of the specified class.
+Mockito.when(methodCall).thenReturn(expectedResult): Defines the behavior of a mock object when a specific method is called.
+Mockito.doThrow(exception).when(mockObject).methodCall(): Specifies that a mock object should throw an exception when a specific method is called.
+Mockito.verify(mockObject, Mockito.times(n)).methodCall(): Verifies that a specific method of a mock object was called a certain number of times.
+Mockito.verifyNoMoreInteractions(mockObject): Verifies that no further interactions occurred on a mock object.
+
 Mocks, stubs, and spies provide different capabilities for testing, allowing you to control dependencies, simulate behaviors, and verify interactions. They are valuable tools for isolating and testing specific parts of your code.
+
+The `verify` method is used with mock objects precisely because they do not interact like real objects. 
+
+Mock objects are designed to simulate the behavior of real objects in a controlled manner. They allow you to define expectations about method calls and return values, and you can use the `verify` method to check whether those expectations are met.
+
+Here are a few reasons why the `verify` method is useful for mock objects:
+
+1. Verifying Method Calls: With mock objects, you can set expectations on specific methods that should be called during the test. After executing the code under test, you can use `verify` to check if the expected methods were called with the correct arguments.
+
+2. Interaction Testing: The `verify` method enables you to test how the code under test interacts with its dependencies. By verifying the method calls on mock objects, you can ensure that the code behaves as expected and correctly interacts with its collaborators.
+
+3. Contract Testing: Mock objects can be used to define the expected behavior of external dependencies or APIs. The `verify` method allows you to ensure that the code under test adheres to the defined contract by verifying the expected interactions with the mock objects.
+
+4. Test Assertions: The `verify` method provides a way to assert the behavior of the code under test. By verifying the method calls and their expected frequencies, you can make assertions about the correctness of the system being tested.
+
+In summary, the `verify` method is a powerful tool for verifying the behavior of mock objects. It allows you to define expectations, check method invocations, and assert the interactions between the code under test and its dependencies. While mock objects don't behave like real objects, they serve a valuable purpose in unit testing by providing control and observability over the system's behavior.
