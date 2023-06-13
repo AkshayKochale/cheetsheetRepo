@@ -200,7 +200,7 @@ Here are the steps to implement the Prototype design pattern in Java:
 
 Now, let's illustrate the Prototype design pattern with an example:
 
-```java
+java
 import java.util.HashMap;
 import java.util.Map;
 
@@ -280,9 +280,9 @@ public class Client {
         clonedCircle.draw();
     }
 }
-```
 
-In this example, we have a Shape interface representing the prototype. Two concrete classes, Circle and Rectangle, implement the Shape interface and define their specific cloning logic in the `clone()` method.
+
+In this example, we have a Shape interface representing the prototype. Two concrete classes, Circle and Rectangle, implement the Shape interface and define their specific cloning logic in the clone() method.
 
 We also have an optional PrototypeRegistry class that acts as a repository of prototypes. It allows clients to retrieve and clone prototypes based on keys. In the client code, we demonstrate using both the PrototypeRegistry and direct cloning of prototypes.
 
@@ -309,7 +309,7 @@ Here are the steps to create the Builder design pattern in Java:
 
 Now, let's illustrate the Builder design pattern with an example:
 
-```java
+java
 public class Car {
     private String make;
     private String model;
@@ -374,7 +374,7 @@ public class Client {
         // Use the constructed car object...
     }
 }
-```
+
 
 In this example, we have a Car class representing the complex object we want to build. It has attributes like make, model, year, and color. The Car class has a private constructor that takes a Builder object and uses its attributes to construct the Car instance.
 
@@ -404,7 +404,7 @@ Here are the steps to create the Factory design pattern in Java:
 
 Now, let's illustrate the Factory design pattern with an example:
 
-```java
+java
 // Step 1: Product interface
 interface Vehicle {
     void start();
@@ -458,13 +458,13 @@ public class Client {
         motorcycle.stop();
     }
 }
-```
+
 
 In this example, we have a Vehicle interface representing the product. Two concrete classes, Car and Motorcycle, implement the Vehicle interface and define their specific start and stop behaviors.
 
-The VehicleFactory class is the factory class that encapsulates the object creation logic. It contains the `createVehicle()` method, which takes a parameter specifying the type of vehicle to create. Based on the provided type, the factory method constructs and returns an instance of the corresponding concrete product class.
+The VehicleFactory class is the factory class that encapsulates the object creation logic. It contains the createVehicle() method, which takes a parameter specifying the type of vehicle to create. Based on the provided type, the factory method constructs and returns an instance of the corresponding concrete product class.
 
-In the client code, we create an instance of the VehicleFactory and use it to create instances of Car and Motorcycle. By calling the `start()` and `stop()` methods on the created objects, we can see the specific behavior of each product.
+In the client code, we create an instance of the VehicleFactory and use it to create instances of Car and Motorcycle. By calling the start() and stop() methods on the created objects, we can see the specific behavior of each product.
 
 The Factory design pattern provides a way to encapsulate object creation logic, allowing clients to create objects without specifying their concrete classes. It promotes loose coupling between the client code and the concrete classes, providing flexibility and extensibility in the creation process.
 
@@ -472,7 +472,7 @@ The Factory design pattern provides a way to encapsulate object creation logic, 
 ===================================================================================================================================================
 
 
-							---------------ABSTRACT FACTORY PATTERN----------------
+								---------------ABSTRACT FACTORY PATTERN----------------
 
 The Abstract Factory design pattern is a creational design pattern that provides an interface for creating families of related or dependent objects without specifying their concrete classes. It encapsulates a group of factory methods, each responsible for creating a different type of product within the family. The Abstract Factory pattern is useful when you want to ensure that a set of related objects is created together or when you need to create objects that are designed to work together.
 
@@ -493,3 +493,918 @@ Here are the steps to create the Abstract Factory design pattern in Java:
 
 
 ============================================================================================================================================================
+
+									------------STRUCTURAL DESIGN PATTERN -------------------
+
+					----------ADAPTER DESIGN PATTERN--------------
+
+
+The Adapter design pattern is a structural design pattern that allows incompatible interfaces to work together. It converts the interface of one class into another interface that clients expect. This pattern is useful when you have two classes with incompatible interfaces and you want to make them work together without modifying their source code.
+
+Here's an example to illustrate the Adapter design pattern:
+
+Let's say we have an existing WeatherService interface that provides weather information in a certain format:
+
+java
+public interface WeatherService {
+    public double getTemperature();
+    public double getHumidity();
+}
+
+
+Now, we have a new client class called WeatherApp that expects weather information in a different format:
+
+java
+public class WeatherApp {
+    public void displayWeather(double temperature, double humidity) {
+        System.out.println("Temperature: " + temperature + "°C");
+        System.out.println("Humidity: " + humidity + "%");
+    }
+}
+
+
+We want to reuse the existing WeatherService implementation but make it compatible with the WeatherApp class. Here's where the Adapter pattern comes in.
+
+First, we define a new interface, WeatherAdapter, that matches the expected interface of the WeatherApp class:
+
+java
+public interface WeatherAdapter {
+    public double getTemperature();
+    public double getHumidity();
+}
+
+
+Next, we create an adapter class called WeatherServiceAdapter that implements the WeatherAdapter interface and wraps the existing WeatherService implementation:
+
+java
+public class WeatherServiceAdapter implements WeatherAdapter {
+    private WeatherService weatherService;
+
+    public WeatherServiceAdapter(WeatherService weatherService) {
+        this.weatherService = weatherService;
+    }
+
+    public double getTemperature() {
+        // Convert temperature from Fahrenheit to Celsius
+        double fahrenheit = weatherService.getTemperature();
+        return (fahrenheit - 32) * 5 / 9;
+    }
+
+    public double getHumidity() {
+        // Convert humidity from percentage to decimal
+        double humidityPercentage = weatherService.getHumidity();
+        return humidityPercentage / 100;
+    }
+}
+
+
+Now, we can use the WeatherServiceAdapter to make the existing WeatherService compatible with the WeatherApp class:
+
+java
+public class Main {
+    public static void main(String[] args) {
+        WeatherService weatherService = new ThirdPartyWeatherService(); // Existing implementation
+        WeatherAdapter adapter = new WeatherServiceAdapter(weatherService);
+
+        WeatherApp weatherApp = new WeatherApp();
+        weatherApp.displayWeather(adapter.getTemperature(), adapter.getHumidity());
+    }
+}
+
+
+In this example, the WeatherServiceAdapter acts as a bridge between the WeatherService and the WeatherApp. It adapts the interface of the WeatherService to match the expected interface of the WeatherApp, allowing them to work together seamlessly.
+
+The Adapter pattern helps achieve compatibility and reusability by allowing classes with incompatible interfaces to collaborate effectively.
+
+
+============================================================================================================================================
+
+								----------------------BRIDGE DESIGN PATTERN-------------------------
+
+
+The Bridge design pattern is a structural design pattern that decouples an abstraction from its implementation. It allows the abstraction and implementation to vary independently, enabling both to be modified or extended without affecting each other. The Bridge pattern promotes loose coupling between the abstraction and its implementation.
+
+Here's an example to illustrate the Bridge design pattern:
+
+Let's consider a scenario where we have different types of shapes (e.g., circles and squares) and different rendering engines (e.g., vector-based and raster-based) to render these shapes.
+
+First, we define the shape abstraction, which represents the high-level abstraction of a shape:
+
+java
+public abstract class Shape {
+    protected Renderer renderer;
+
+    public Shape(Renderer renderer) {
+        this.renderer = renderer;
+    }
+
+    public abstract void draw();
+}
+
+
+Next, we define the concrete shape implementations that extend the Shape abstraction:
+
+java
+public class Circle extends Shape {
+    private double radius;
+
+    public Circle(double radius, Renderer renderer) {
+        super(renderer);
+        this.radius = radius;
+    }
+
+    public void draw() {
+        System.out.println("Drawing Circle");
+        renderer.renderCircle(radius);
+    }
+}
+
+public class Square extends Shape {
+    private double sideLength;
+
+    public Square(double sideLength, Renderer renderer) {
+        super(renderer);
+        this.sideLength = sideLength;
+    }
+
+    public void draw() {
+        System.out.println("Drawing Square");
+        renderer.renderSquare(sideLength);
+    }
+}
+
+
+Now, we define the renderer abstraction, which represents the high-level abstraction of a rendering engine:
+
+java
+public interface Renderer {
+    void renderCircle(double radius);
+    void renderSquare(double sideLength);
+}
+
+
+We can have multiple implementations of the Renderer interface. For this example, let's consider two implementations: VectorRenderer and RasterRenderer:
+
+java
+public class VectorRenderer implements Renderer {
+    public void renderCircle(double radius) {
+        System.out.println("Rendering Circle in Vector");
+    }
+
+    public void renderSquare(double sideLength) {
+        System.out.println("Rendering Square in Vector");
+    }
+}
+
+public class RasterRenderer implements Renderer {
+    public void renderCircle(double radius) {
+        System.out.println("Rendering Circle in Raster");
+    }
+
+    public void renderSquare(double sideLength) {
+        System.out.println("Rendering Square in Raster");
+    }
+}
+
+
+Now, we can create instances of shapes with different renderers:
+
+java
+public class Main {
+    public static void main(String[] args) {
+        Renderer vectorRenderer = new VectorRenderer();
+        Renderer rasterRenderer = new RasterRenderer();
+
+        Shape circle = new Circle(5, vectorRenderer);
+        Shape square = new Square(10, rasterRenderer);
+
+        circle.draw();
+        square.draw();
+    }
+}
+
+
+In this example, the Bridge pattern allows the shape abstractions (Circle and Square) to vary independently from the rendering engines (VectorRenderer and RasterRenderer). The Shape abstraction and the Renderer implementation are connected through the bridge, enabling different combinations of shapes and renderers.
+
+The Bridge pattern helps in separating abstractions and implementations, allowing them to evolve independently. It promotes flexibility, extensibility, and easier maintenance of code by avoiding a rigid coupling between abstraction and implementation.
+
+
+The Bridge design pattern is called "Bridge" because it acts as a bridge between two components: the abstraction and its implementation. It establishes a connection between these two components, allowing them to work together while keeping them separate and independent.
+
+The pattern forms a bridge between the abstraction (high-level interface or class) and the implementation (low-level details or classes) by encapsulating each one in separate hierarchies. The abstraction and implementation hierarchies can then evolve independently without affecting each other, much like two separate sides of a bridge.
+
+
+==================================================================================================================================================================
+		
+					--------------------------COMPOSITE DESIGN PATTERN-------------------------
+
+
+The Composite design pattern is a structural design pattern that allows you to compose objects into tree-like structures and work with both individual objects and groups of objects uniformly. It provides a way to treat individual objects and collections of objects in a uniform manner.
+
+To understand the Composite pattern, let's consider an example of a hierarchical structure of an organization, which includes departments and employees. Each department can have sub-departments, and each department and sub-department can have employees.
+
+First, we define a common component interface, which represents both individual objects and groups of objects:
+
+java
+public interface EmployeeComponent {
+    void displayInformation();
+}
+
+
+Next, we create two concrete classes: Employee represents an individual employee, and Department represents a department that can contain employees and sub-departments.
+
+java
+public class Employee implements EmployeeComponent {
+    private String name;
+    private String position;
+
+    public Employee(String name, String position) {
+        this.name = name;
+        this.position = position;
+    }
+
+    public void displayInformation() {
+        System.out.println("Name: " + name + ", Position: " + position);
+    }
+}
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Department implements EmployeeComponent {
+    private String name;
+    private List<EmployeeComponent> employees;
+
+    public Department(String name) {
+        this.name = name;
+        employees = new ArrayList<>();
+    }
+
+    public void addEmployee(EmployeeComponent employee) {
+        employees.add(employee);
+    }
+
+    public void removeEmployee(EmployeeComponent employee) {
+        employees.remove(employee);
+    }
+
+    public void displayInformation() {
+        System.out.println("Department: " + name);
+        System.out.println("Employees: ");
+        for (EmployeeComponent employee : employees) {
+            employee.displayInformation();
+        }
+    }
+}
+
+
+Now, let's create a main class to demonstrate the usage of the Composite pattern:
+
+java
+public class Main {
+    public static void main(String[] args) {
+        EmployeeComponent john = new Employee("John", "Manager");
+        EmployeeComponent mary = new Employee("Mary", "Developer");
+        EmployeeComponent peter = new Employee("Peter", "Developer");
+
+        Department development = new Department("Development");
+        development.addEmployee(mary);
+        development.addEmployee(peter);
+
+        Department marketing = new Department("Marketing");
+        marketing.addEmployee(new Employee("Alice", "Marketing Manager"));
+        marketing.addEmployee(new Employee("Bob", "Marketing Assistant"));
+
+        Department company = new Department("Company");
+        company.addEmployee(john);
+        company.addEmployee(development);
+        company.addEmployee(marketing);
+
+        company.displayInformation();
+    }
+}
+
+
+In this example, we create a hierarchy of objects using the Composite pattern. The Employee class represents individual employees, and the Department class represents departments that can contain both employees and sub-departments.
+
+By treating both individual employees and departments as EmployeeComponent objects, we can operate on them uniformly through the displayInformation() method. This allows us to iterate over all the objects in the hierarchy and display their information recursively.
+
+The Composite pattern simplifies the client code by providing a unified interface for both individual objects and groups of objects. It enables clients to treat complex structures as a single object, promoting code reusability, flexibility, and ease of maintenance.
+
+
+=========================================================================================================================================================================
+
+		--------------------DECORATOR DESIGN PATTERN-------------------------
+
+
+The Decorator design pattern is a structural design pattern that allows behavior to be added to an individual object dynamically, without affecting the behavior of other objects from the same class. It provides an alternative to subclassing for extending functionality.
+
+To illustrate the Decorator pattern, let's consider an example of a coffee shop that offers different types of coffees with various additional ingredients.
+
+First, we define an interface representing the base Coffee:
+
+java
+public interface Coffee {
+    double getCost();
+    String getDescription();
+}
+
+
+Next, we implement a concrete coffee class:
+
+java
+public class SimpleCoffee implements Coffee {
+    public double getCost() {
+        return 1.0; // Base cost of simple coffee
+    }
+
+    public String getDescription() {
+        return "Simple Coffee"; // Description of simple coffee
+    }
+}
+
+
+Now, let's create a decorator class that adds an ingredient to the coffee:
+
+java
+public abstract class CoffeeDecorator implements Coffee {
+    protected Coffee decoratedCoffee;
+
+    public CoffeeDecorator(Coffee decoratedCoffee) {
+        this.decoratedCoffee = decoratedCoffee;
+    }
+
+    public double getCost() {
+        return decoratedCoffee.getCost();
+    }
+
+    public String getDescription() {
+        return decoratedCoffee.getDescription();
+    }
+}
+
+
+We can then create concrete decorator classes that add specific ingredients to the coffee:
+
+java
+public class MilkDecorator extends CoffeeDecorator {
+    public MilkDecorator(Coffee decoratedCoffee) {
+        super(decoratedCoffee);
+    }
+
+    public double getCost() {
+        return super.getCost() + 0.5; // Additional cost for milk
+    }
+
+    public String getDescription() {
+        return super.getDescription() + ", Milk"; // Additional description for milk
+    }
+}
+
+public class SugarDecorator extends CoffeeDecorator {
+    public SugarDecorator(Coffee decoratedCoffee) {
+        super(decoratedCoffee);
+    }
+
+    public double getCost() {
+        return super.getCost() + 0.2; // Additional cost for sugar
+    }
+
+    public String getDescription() {
+        return super.getDescription() + ", Sugar"; // Additional description for sugar
+    }
+}
+
+
+Now, let's see how we can use the Decorator pattern to create different combinations of coffees with various ingredients:
+
+java
+public class Main {
+    public static void main(String[] args) {
+        Coffee simpleCoffee = new SimpleCoffee();
+        System.out.println("Cost: " + simpleCoffee.getCost() + ", Description: " + simpleCoffee.getDescription());
+
+        Coffee milkCoffee = new MilkDecorator(simpleCoffee);
+        System.out.println("Cost: " + milkCoffee.getCost() + ", Description: " + milkCoffee.getDescription());
+
+        Coffee sugarMilkCoffee = new SugarDecorator(milkCoffee);
+        System.out.println("Cost: " + sugarMilkCoffee.getCost() + ", Description: " + sugarMilkCoffee.getDescription());
+    }
+}
+
+
+In this example, we start with a simple coffee and then dynamically add milk and sugar as decorators. Each decorator adds its own cost and modifies the description accordingly.
+
+The Decorator pattern allows us to extend the behavior of individual objects without the need for creating multiple subclasses. It promotes flexibility and code reusability by providing a way to add and remove responsibilities dynamically.
+
+
+====================================================================================================================================================================
+
+						--------------------FACADE DESIGN PATTERN-------------------------
+
+
+The Facade design pattern is a structural design pattern that provides a simplified interface to a complex system or set of classes. It encapsulates a group of classes and provides a unified interface, making it easier to use and understand.
+
+To illustrate the Facade pattern, let's consider an example of a home theater system that consists of multiple components such as DVD player, projector, screen, and audio system.
+
+First, we define the Facade class, which serves as a simplified interface to the home theater system:
+
+java
+public class HomeTheaterFacade {
+    private DVDPlayer dvdPlayer;
+    private Projector projector;
+    private Screen screen;
+    private AudioSystem audioSystem;
+
+    public HomeTheaterFacade() {
+        this.dvdPlayer = new DVDPlayer();
+        this.projector = new Projector();
+        this.screen = new Screen();
+        this.audioSystem = new AudioSystem();
+    }
+
+    public void watchMovie(String movie) {
+        System.out.println("Get ready to watch a movie...");
+        dvdPlayer.on();
+        dvdPlayer.insertDisc(movie);
+        projector.on();
+        projector.setInput(dvdPlayer);
+        projector.setScreen(screen);
+        projector.project();
+        audioSystem.on();
+        audioSystem.setSource(dvdPlayer);
+        audioSystem.setVolume(50);
+        audioSystem.play();
+    }
+
+    public void endMovie() {
+        System.out.println("Shutting down the home theater...");
+        dvdPlayer.off();
+        projector.off();
+        audioSystem.off();
+    }
+}
+
+
+Next, we create the individual components of the home theater system:
+
+java
+public class DVDPlayer {
+    public void on() {
+        System.out.println("DVD player is on");
+    }
+
+    public void off() {
+        System.out.println("DVD player is off");
+    }
+
+    public void insertDisc(String movie) {
+        System.out.println("Inserting disc: " + movie);
+    }
+}
+
+public class Projector {
+    private DVDPlayer dvdPlayer;
+    private Screen screen;
+
+    public void on() {
+        System.out.println("Projector is on");
+    }
+
+    public void off() {
+        System.out.println("Projector is off");
+    }
+
+    public void setInput(DVDPlayer dvdPlayer) {
+        this.dvdPlayer = dvdPlayer;
+        System.out.println("Setting projector input to DVD player");
+    }
+
+    public void setScreen(Screen screen) {
+        this.screen = screen;
+        System.out.println("Setting projector screen");
+    }
+
+    public void project() {
+        System.out.println("Projecting on the screen");
+    }
+}
+
+public class Screen {
+    public void up() {
+        System.out.println("Screen is up");
+    }
+
+    public void down() {
+        System.out.println("Screen is down");
+    }
+}
+
+public class AudioSystem {
+    private DVDPlayer dvdPlayer;
+
+    public void on() {
+        System.out.println("Audio system is on");
+    }
+
+    public void off() {
+        System.out.println("Audio system is off");
+    }
+
+    public void setSource(DVDPlayer dvdPlayer) {
+        this.dvdPlayer = dvdPlayer;
+        System.out.println("Setting audio system source to DVD player");
+    }
+
+    public void setVolume(int volume) {
+        System.out.println("Setting volume to " + volume);
+    }
+
+    public void play() {
+        System.out.println("Playing audio");
+    }
+}
+
+
+Now, we can use the Facade class to simplify the usage of the home theater system:
+
+java
+public class Main {
+    public static void main(String[] args) {
+        HomeTheaterFacade homeTheater = new HomeTheaterFacade();
+        homeTheater.watchMovie("Inception");
+        System.out.println("------------------------");
+        homeTheater.endMovie();
+    }
+}
+
+
+In this example, the
+
+ HomeTheaterFacade class acts as a simplified interface to the complex home theater system. It hides the complexity of the individual components (DVDPlayer, Projector, Screen, and AudioSystem) and provides a high-level interface to watch a movie and end the movie.
+
+The Facade pattern simplifies the usage of complex systems by providing a convenient interface that encapsulates the underlying complexity. It improves code readability, maintainability, and reduces dependencies between clients and the system's components.
+
+
+========================================================================================================================================================================
+
+		-----------------------------FLYWEIGHT DESIGN PATTERN----------------------
+
+
+The Flyweight design pattern is a structural design pattern that focuses on minimizing memory usage by sharing common data across multiple objects. It is used when there are a large number of similar objects, and the overhead of maintaining separate objects for each instance is significant.
+
+To illustrate the Flyweight pattern, let's consider an example of a text editor where we have a large number of characters, and we want to minimize memory usage by reusing common characters.
+
+First, we define the Flyweight interface, which represents the common properties and methods shared by multiple flyweight objects:
+
+java
+public interface Character {
+    void draw();
+}
+
+
+Next, we create a concrete flyweight class that implements the Flyweight interface:
+
+java
+public class ConcreteCharacter implements Character {
+    private char symbol;
+
+    public ConcreteCharacter(char symbol) {
+        this.symbol = symbol;
+    }
+
+    public void draw() {
+        System.out.println("Character " + symbol + " is drawn.");
+    }
+}
+
+
+Now, we create a factory class that manages the flyweight objects and ensures their proper creation and sharing:
+
+java
+import java.util.HashMap;
+import java.util.Map;
+
+public class CharacterFactory {
+    private Map<Character, Character> characters = new HashMap<>();
+
+    public Character getCharacter(char symbol) {
+        Character character = characters.get(symbol);
+
+        if (character == null) {
+            character = new ConcreteCharacter(symbol);
+            characters.put(symbol, character);
+        }
+
+        return character;
+    }
+}
+
+
+Finally, let's use the flyweight objects in our text editor:
+
+java
+public class TextEditor {
+    private CharacterFactory characterFactory = new CharacterFactory();
+    private List<Character> characters = new ArrayList<>();
+
+    public void insertCharacter(char symbol) {
+        Character character = characterFactory.getCharacter(symbol);
+        characters.add(character);
+    }
+
+    public void displayCharacters() {
+        for (Character character : characters) {
+            character.draw();
+        }
+    }
+}
+
+
+In this example, the CharacterFactory manages the flyweight objects and ensures that each unique character is created only once. When a new character is inserted in the text editor, the factory checks if it already exists. If it does, it returns the existing flyweight object; otherwise, it creates a new one and stores it in the factory for future use.
+
+The TextEditor class uses the flyweight objects to insert and display characters. Instead of creating a new object for each character, it uses the flyweight objects retrieved from the factory, reducing memory usage by reusing shared objects.
+
+The Flyweight pattern is beneficial when there are many similar objects with shared data, and memory usage needs to be optimized. It allows for the efficient use of resources by minimizing the number of objects created and promoting object sharing.
+
+======================================================================================================================================================================
+
+				---------------PROXY PATTERN-------------------
+
+The Proxy pattern is a structural design pattern that provides a surrogate or placeholder for another object in order to control its access or add extra functionality. It allows you to create a class that acts as an interface to another class, providing a level of indirection to the original object. In Java, you can implement the Proxy pattern using interfaces or inheritance.
+
+Here's an example of implementing the Proxy pattern in Java using interfaces:
+
+java
+// Subject interface
+public interface Image {
+    void display();
+}
+
+// RealSubject class
+public class RealImage implements Image {
+    private String filename;
+
+    public RealImage(String filename) {
+        this.filename = filename;
+        loadFromDisk();
+    }
+
+    private void loadFromDisk() {
+        System.out.println("Loading image: " + filename);
+    }
+
+    @Override
+    public void display() {
+        System.out.println("Displaying image: " + filename);
+    }
+}
+
+// Proxy class
+public class ImageProxy implements Image {
+    private String filename;
+    private RealImage realImage;
+
+    public ImageProxy(String filename) {
+        this.filename = filename;
+    }
+
+    @Override
+    public void display() {
+        if (realImage == null) {
+            realImage = new RealImage(filename);
+        }
+        realImage.display();
+    }
+}
+
+// Client code
+public class Client {
+    public static void main(String[] args) {
+        Image image = new ImageProxy("example.jpg");
+        // Image is not loaded until display() is called
+        image.display();
+        // Image is already loaded, display() doesn't load it again
+        image.display();
+    }
+}
+
+
+In this example, the Image interface represents the subject, which is the common interface between the RealImage and ImageProxy classes. The RealImage class is the real object that represents an image and performs the actual loading and displaying of the image. The ImageProxy class acts as a proxy for the RealImage class, delaying the creation of the RealImage object until the display() method is called.
+
+When the client code creates an ImageProxy object, the image is not loaded immediately. Only when the display() method is invoked, the ImageProxy checks if the RealImage object has been created. If not, it creates the RealImage object and delegates the display() method call to it. Otherwise, it simply calls the display() method on the existing RealImage object.
+
+This pattern can be useful in scenarios where creating the real object is expensive, or when you need to control access to the real object or add additional behavior around it. The Proxy pattern allows you to achieve these goals without modifying the existing code of the real object.
+
+==========================================================================================================================================================================
+
+
+												------------------BEHAVIORAL DESIGN PATTERN -------------------
+
+
+							--------------- CHAIN OF RESPONSIBILITY --------------
+
+
+The Chain of Responsibility pattern is a behavioral design pattern that allows an object to pass a request along a chain of potential handlers until the request is handled or reaches the end of the chain. Each handler in the chain has the ability to handle the request or pass it to the next handler in the chain.
+
+
+Sure! Here's an example of how the Chain of Responsibility pattern can be applied to process a payment through a bank, credit card, and PayPal:
+
+java
+// The base handler interface
+public interface PaymentProcessor {
+    void setNext(PaymentProcessor next);
+    void processPayment(MoneyAmount amount);
+}
+
+// Concrete handler for Bank payment
+public class BankPaymentProcessor implements PaymentProcessor {
+    private PaymentProcessor next;
+
+    @Override
+    public void setNext(PaymentProcessor next) {
+        this.next = next;
+    }
+
+    @Override
+    public void processPayment(MoneyAmount amount) {
+        if (amount.getCurrency().equals("USD")) {
+            System.out.println("Processing payment through Bank...");
+            // Perform Bank-specific payment processing logic here
+        } else if (next != null) {
+            next.processPayment(amount);
+        } else {
+            System.out.println("No payment processor found for the currency.");
+        }
+    }
+}
+
+// Concrete handler for Credit Card payment
+public class CreditCardPaymentProcessor implements PaymentProcessor {
+    private PaymentProcessor next;
+
+    @Override
+    public void setNext(PaymentProcessor next) {
+        this.next = next;
+    }
+
+    @Override
+    public void processPayment(MoneyAmount amount) {
+        if (amount.getCurrency().equals("USD") || amount.getCurrency().equals("EUR")) {
+            System.out.println("Processing payment through Credit Card...");
+            // Perform Credit Card-specific payment processing logic here
+        } else if (next != null) {
+            next.processPayment(amount);
+        } else {
+            System.out.println("No payment processor found for the currency.");
+        }
+    }
+}
+
+// Concrete handler for PayPal payment
+public class PayPalPaymentProcessor implements PaymentProcessor {
+    private PaymentProcessor next;
+
+    @Override
+    public void setNext(PaymentProcessor next) {
+        this.next = next;
+    }
+
+    @Override
+    public void processPayment(MoneyAmount amount) {
+        if (amount.getCurrency().equals("USD") || amount.getCurrency().equals("EUR") || amount.getCurrency().equals("GBP")) {
+            System.out.println("Processing payment through PayPal...");
+            // Perform PayPal-specific payment processing logic here
+        } else if (next != null) {
+            next.processPayment(amount);
+        } else {
+            System.out.println("No payment processor found for the currency.");
+        }
+    }
+}
+
+// Money amount class
+public class MoneyAmount {
+    private double amount;
+    private String currency;
+
+    public MoneyAmount(double amount, String currency) {
+        this.amount = amount;
+        this.currency = currency;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+}
+
+// Usage example
+public class Main {
+    public static void main(String[] args) {
+        // Create the chain of payment processors
+        PaymentProcessor bankProcessor = new BankPaymentProcessor();
+        PaymentProcessor creditCardProcessor = new CreditCardPaymentProcessor();
+        PaymentProcessor payPalProcessor = new PayPalPaymentProcessor();
+
+        bankProcessor.setNext(creditCardProcessor);
+        creditCardProcessor.setNext(payPalProcessor);
+
+        // Create a payment
+        MoneyAmount paymentAmount = new MoneyAmount(100.0, "USD");
+
+        // Process the payment
+        bankProcessor.processPayment(paymentAmount);
+    }
+}
+
+
+In this example, we have three concrete payment processors: BankPaymentProcessor, CreditCardPaymentProcessor, and PayPalPaymentProcessor. Each processor implements the PaymentProcessor interface, which defines the setNext and processPayment methods. Each processor checks if it can handle the payment based on the currency. If it can handle the payment, it performs the necessary payment processing logic. If not,
+
+ it passes the payment to the next processor in the chain. If there are no more processors in the chain, it outputs a message indicating that no payment processor was found for the currency.
+
+In the Main class, we create a chain of payment processors by setting the next processor for each processor. Then, we create a payment with an amount of 100.0 USD and pass it to the first processor in the chain. The payment will be processed and handled by the appropriate processors in the chain, or an appropriate message will be displayed if no processor is found for the currency.
+
+
+
+
+==================================================================================================================================================================
+
+			    ------------------COMMAND DESIGN PATTERN -------------------------
+
+
+The Command design pattern is a behavioral design pattern that decouples the sender of a request from the receiver of that request. It encapsulates a request as an object, thereby allowing parameterization of clients with different requests, queue or log requests, and support undoable operations.
+
+Here's an example of implementing the Command design pattern in Java:
+
+java
+// The Command interface
+interface Command {
+    void execute();
+}
+
+// The Receiver class
+class Receiver {
+    void performAction() {
+        System.out.println("Action performed by the receiver");
+    }
+}
+
+// Concrete command implementation
+class ConcreteCommand implements Command {
+    private Receiver receiver;
+
+    ConcreteCommand(Receiver receiver) {
+        this.receiver = receiver;
+    }
+
+    @Override
+    public void execute() {
+        receiver.performAction();
+    }
+}
+
+// The Invoker class
+class Invoker {
+    private Command command;
+
+    void setCommand(Command command) {
+        this.command = command;
+    }
+
+    void executeCommand() {
+        command.execute();
+    }
+}
+
+// Client code
+public class Main {
+    public static void main(String[] args) {
+        // Create a receiver
+        Receiver receiver = new Receiver();
+
+        // Create a concrete command and associate it with the receiver
+        Command command = new ConcreteCommand(receiver);
+
+        // Create an invoker and set the command
+        Invoker invoker = new Invoker();
+        invoker.setCommand(command);
+
+        // Execute the command
+        invoker.executeCommand();
+    }
+}
+
+
+In this example, we have a Command interface that declares the execute() method. The Receiver class defines the operations that can be performed. The ConcreteCommand class implements the Command interface and encapsulates a specific action to be performed on the Receiver. The Invoker class sets the command and invokes the execute() method.
+
+When the Main class is executed, it creates a Receiver object, a ConcreteCommand object associated with the receiver, and an Invoker object that sets the command. Finally, the executeCommand() method is called on the Invoker, which in turn calls the execute() method on the associated command, resulting in the action being performed by the receiver.
+
+This demonstrates how the Command design pattern allows the sender of a request (Invoker) to be decoupled from the receiver (Receiver) by encapsulating the request as an object (Command).
+
+
+
+=========================================================================================================================================================================
